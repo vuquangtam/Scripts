@@ -1,7 +1,7 @@
 import requests
 import json
 import urllib
-import secret
+from config import TranslateConfig
 
 class Translate:
     def translate(self, text, to="vi"):
@@ -15,7 +15,7 @@ class Translate:
 
         return result
     
-    def bing(self, text, _from="en", to="vi", bing_id=secret.BING_ID, bing_secret=secret.BING_SECRET):
+    def bing(self, text, _from="en", to="vi", bing_id=TranslateConfig.BING_ID, bing_secret=TranslateConfig.BING_SECRET):
         args = {
             'client_id': bing_id, #your client id here
             'client_secret': bing_secret, #your azure secret here
