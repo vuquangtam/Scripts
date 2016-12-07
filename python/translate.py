@@ -4,7 +4,8 @@ import urllib
 from config import TranslateConfig
 
 class Translate:
-    def translate(self, text, to="vi"):
+    
+    def default(self, text, to="vi"):
         url = "http://www.transltr.org/api/translate?text="+ text + "&to=" + to
         req = requests.get(url)
 
@@ -34,9 +35,17 @@ class Translate:
         translation_result = requests.get(translation_url+urllib.urlencode(translation_args),headers=headers)
         return translation_result.text.replace('"', "")
 
+    def google(self, text, _from, to):
+        #text = urllib.urlencode(text)
+        req = requests.get("https://translate.google.com/#%s/%s/%s" % (_from, to, text))
+        req.raise_for_status()
+        soup = bs4.BeautifulSoup(req.text, "lxml")
+        result = soup.select("span#result_box span")
+        print result
 
 if __name__ == "__main__":
     text = "but my wife and daughter are left alone."
     t = Translate()
-    print t.translate(text)
+    print t.default(text)
     print t.bing(text)
+    print t.google(text)
